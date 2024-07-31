@@ -5,7 +5,7 @@ pipeline {
         SSH_CREDENTIALS_ID = 'aws-ssh-key'
         REMOTE_USER = 'ec2-user'
         REMOTE_HOST = '52.55.231.189'
-        REMOTE_PATH = '/var/lib/jenkins/workspace/simple-test-java-pipeline/target/simple-java-app-0.0.1-SNAPSHOT.jar'
+        REMOTE_PATH = '/home/ec2-user/target'
     }
 
     stages {
@@ -25,7 +25,7 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY_PATH')]) {
                     script {
                         // Define the local and remote paths
-                        def localJar = '/home/ec2-user/target/simple-java-app-0.0.1-SNAPSHOT.jar'
+                        def localJar = '/var/lib/jenkins/workspace/simple-test-java-pipeline/target/simple-java-app-0.0.1-SNAPSHOT.jar'
                         
                         // Transfer the .jar file using SCP
                         sh """
