@@ -10,6 +10,9 @@ pipeline {
     
     stages {
         stage('Build') {
+            environment {
+                PATH = "/opt/maven/bin:${env.PATH}"
+            }
             steps {
                 script {
                     // Checkout code from version control
