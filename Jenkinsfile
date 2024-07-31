@@ -2,8 +2,10 @@ pipeline {
     agent any
     
     environment {
+        // Define environment variables if needed
         DEPLOY_SERVER = 'ec2-user@52.55.231.189'
         DEPLOY_PATH = '/home/ec2-user/target'
+        SSH_KEY = credentials('aws-ssh-key')
     }
     
     stages {
@@ -24,22 +26,19 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                withCredentials([file(credentialsId: 'aws-ssh-key', variable: '/home/osanda/Downloads/test-aws.pem')]) {
-                    script {
-                        
-                        // Copy the JAR file to the remote server
-                        sh """
-                            scp -i \$SSH_KEY_PATH /var/lib/jenkins/workspace/simple-test-java-pipeline/target/simple-java-app-0.0.1-SNAPSHOT.jar ${DEPLOY_SERVER}:${DEPLOY_PATH}
-                        """
-                        
-                        // Restart the application on the remote server
-                        sh """
-                            ssh -i \$SSH_KEY_PATH ${DEPLOY_SERVER} '
-                                pkill -f myapp.jar || true
-                                nohup java -jar ${DEPLOY_PATH}/myapp.jar > ${DEPLOY_PATH}/output.log 2>&1 &
-                            '
-                        """
-                    }
+                script {
+                    // Copy the JAR file to the remote server
+                    sh """
+                        scp -i ${SSH_KEY} /var/lib/jenkins/workspace/simple-test-java-pipeline/target/simple-java-app-0.0.1-SNAPSHOT.jar ${DEPLOY_SERVER}:${DEPLOY_PATH}
+                    """
+                    
+                    // Restart the application on the remote server
+                    sh """
+                        ssh -i ${SSH_KEY} ${DEPLOY_SERVER} '
+                            pkill -f myapp.jar || true
+                            nohup java -jar ${DEPLOY_PATH}/myapp.jar > ${DEPLOY_PATH}/output.log 2>&1 &
+                        '
+                    """
                 }
             }
         }
@@ -54,6 +53,5 @@ pipeline {
         }
     }
 }
-
 
 
