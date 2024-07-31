@@ -26,7 +26,7 @@ pipeline {
                 script {
                     // Copy the JAR file to the remote server
                     sh """
-                        scp -i ${SSH_KEY} target/myapp.jar ${DEPLOY_SERVER}:${DEPLOY_PATH}
+                        scp -i ${SSH_KEY} /var/lib/jenkins/workspace/simple-test-java-pipeline/target/simple-java-app-0.0.1-SNAPSHOT.jar ${DEPLOY_SERVER}:${DEPLOY_PATH}
                     """
                     
                     // Restart the application on the remote server
