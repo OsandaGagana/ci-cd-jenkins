@@ -5,7 +5,7 @@ pipeline {
         // Define environment variables if needed
         DEPLOY_SERVER = 'ec2-user@52.55.231.189'
         DEPLOY_PATH = '/home/ec2-user/target'
-        SSH_KEY = credentials('aws-ssh-key')
+        SSH_KEY = credentials(aws-ssh-key)
     }
     
     stages {
