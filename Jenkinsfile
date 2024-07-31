@@ -26,8 +26,6 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'aws-ssh-key', variable: '/home/osanda/Downloads/test-aws.pem')]) {
                     script {
-                        // Add the host key to known_hosts
-                        sh 'ssh-keyscan -H ${DEPLOY_SERVER.split("@")[1]} >> ~/.ssh/known_hosts'
                         
                         // Copy the JAR file to the remote server
                         sh """
