@@ -10,6 +10,9 @@ pipeline {
 
     stages {
         stage('Build') {
+            environment {
+                PATH = "/opt/maven/bin:${env.PATH}"
+            }
             steps {
                 // Building the Java project and creating the .jar file
                 sh 'mvn clean package'
