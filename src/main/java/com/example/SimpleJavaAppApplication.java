@@ -16,7 +16,7 @@ public class SimpleJavaAppApplication {
 class HelloController {
     @GetMapping("/")
     public String hello() {
-        return "Hello from Simple Java App! I did a change here";
+        return "Hello from Kisal Perera";
     }
 }
 
